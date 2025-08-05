@@ -1,0 +1,50 @@
+{% comment %}
+  Renders an icon snippet.
+  
+  Accepts:
+  - icon: {String} The name of the icon to render
+  - class: {String} Additional CSS classes
+  
+  Usage:
+  {% render 'icon', icon: 'search' %}
+{% endcomment %}
+
+{%- case icon -%}
+  {%- when 'search' -%}
+    <svg viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon icon-search {{ class }}">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.72l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.38z" fill="currentColor"/>
+    </svg>
+  {%- when 'close' -%}
+    <svg viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon icon-close {{ class }}">
+      <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"/>
+    </svg>
+  {%- when 'hamburger' -%}
+    <svg viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon icon-hamburger {{ class }}">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1h20v2H0V1zM0 6h20v2H0V6zM20 11H0v2h20v-2z" fill="currentColor"/>
+    </svg>
+  {%- when 'cart' -%}
+    <svg class="icon icon-cart {{ class }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+      <path fill="currentColor" fill-rule="evenodd" d="m15.75 11.8h-3.16l-.77 11.6a5 5 0 0 0 4.99 5.34h7.38a5 5 0 0 0 4.99-5.33L28.4 11.8h-3.16v.5a4.75 4.75 0 1 1-9.5 0v-.5zm7.5 .5a2.75 2.75 0 1 0-5.5 0v-.5h5.5v.5z"/>
+    </svg>
+  {%- when 'cart-empty' -%}
+    <svg class="icon icon-cart-empty {{ class }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+      <path d="M20 2C9 2 2 9 2 20s7 18 18 18 18-7 18-18S31 2 20 2zm0 34C10.1 36 4 29.9 4 20S10.1 4 20 4s16 6.1 16 16-6.1 16-16 16z" fill="currentColor"/>
+      <path d="m15.75 11.8h-3.16l-.77 11.6a5 5 0 0 0 4.99 5.34h7.38a5 5 0 0 0 4.99-5.33L28.4 11.8h-3.16v.5a4.75 4.75 0 1 1-9.5 0v-.5zm7.5 .5a2.75 2.75 0 1 0-5.5 0v-.5h5.5v.5z" fill="currentColor"/>
+    </svg>
+  {%- when 'account' -%}
+    <svg class="icon icon-account {{ class }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+      <path fill="currentColor" d="M20 8a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm-4 6a4 4 0 1 0 8 0 4 4 0 0 0-8 0Zm-12 16a14 14 0 1 1 28 0h-2a12 12 0 1 0-24 0h-2Z"/>
+    </svg>
+  {%- when 'arrow' -%}
+    <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="icon icon-arrow {{ class }}" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor">
+    </svg>
+  {%- when 'caret' -%}
+    <svg class="icon icon-caret {{ class }}" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/>
+    </svg>
+  {%- else -%}
+    <svg class="icon icon-{{ icon }} {{ class }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+    </svg>
+{%- endcase -%}

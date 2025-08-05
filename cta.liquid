@@ -1,0 +1,117 @@
+<div class="cta section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="cta__content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cta__heading inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+      
+      {%- if section.settings.text != blank -%}
+        <div class="cta__text rte">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+      
+      {%- if section.settings.button_label != blank -%}
+        <div class="cta__buttons">
+          <a
+            {% if section.settings.button_link == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link }}"
+            {% endif %}
+            class="button button--primary"
+          >
+            {{- section.settings.button_label | escape -}}
+          </a>
+          
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              {% if section.settings.button_link_2 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_2 }}"
+              {% endif %}
+              class="button button--secondary"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Call to action",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Ready to Extract More Value?",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Join thousands of businesses that trust us for their digital transformation journey.</p>",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Start Free Trial",
+      "label": "First button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "First button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Schedule Demo",
+      "label": "Second button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Second button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Call to action"
+    }
+  ]
+}
+{% endschema %}

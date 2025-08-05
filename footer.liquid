@@ -1,0 +1,161 @@
+<link rel="stylesheet" href="{{ 'section-footer.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-newsletter.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-list-payment.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'section-footer.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-list-social.css' | asset_url | stylesheet_tag }}</noscript>
+
+<footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="footer__content-top page-width">
+    {%- if section.blocks.size > 0
+        or section.settings.newsletter_enable
+        or section.settings.show_social -%}
+      <div class="footer-block-list grid grid--1-col grid--2-col grid--4-col-tablet{% if section.blocks.size == 5 %} grid--5-col-desktop{% else %} grid--{{ section.blocks.size }}-col-desktop{% endif %}">
+        {%- liquid
+          if section.blocks.size > 0
+            assign footer_grid_class = 'footer-block-list grid grid--1-col grid--2-col grid--4-col-tablet'
+            if section.blocks.size == 5
+              assign footer_grid_class = footer_grid_class | append: ' grid--5-col-desktop'
+            else
+              assign footer_grid_class = footer_grid_class | append: ' grid--' | append: section.blocks.size | append: '-col-desktop'
+            endif
+          endif
+        -%}
+        {%- for block in section.blocks -%}
+          <div class="footer-block grid__item{% if block.type == 'link_list' and block.settings.heading != blank %} footer-block--menu{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h2 class="footer-block__heading inline-richtext">{{ block.settings.heading }}</h2>
+            {%- endif -%}
+
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+              {%- when 'text' -%}
+                <div class="footer-block__details-content rte">
+                  {{ block.settings.subtext }}
+                </div>
+              {%- when 'link_list' -%}
+                {%- if block.settings.menu != blank -%}
+                  <ul class="footer-block__details-content list-unstyled">
+                    {%- for link in block.settings.menu.links -%}
+                      <li>
+                        <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link{% if link.current %} list-menu__item--active{% endif %}">
+                          {{ link.title }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              {%- when 'brand_information' -%}
+                <div class="footer-block__brand-info">
+                  {%- if settings.logo != blank -%}
+                    {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+                    {%- assign logo_height = block.settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                    {{ settings.logo | image_url: width: block.settings.logo_width | image_tag:
+                      class: 'footer-block__logo',
+                      widths: '50, 100, 150, 200, 250, 300, 400',
+                      height: logo_height,
+                      width: block.settings.logo_width,
+                      alt: logo_alt
+                    }}
+                  {%- else -%}
+                    <h2 class="footer-block__heading">{{ shop.name }}</h2>
+                  {%- endif -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="rte">
+                      {{ block.settings.text }}
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.show_social -%}
+                    {%- render 'social-icons', class: 'footer__list-social' -%}
+                  {%- endif -%}
+                </div>
+              {%- when 'newsletter' -%}
+                <div class="footer-block__newsletter">
+                  {%- if block.settings.newsletter_enable -%}
+                    <div class="newsletter">
+                      <h2 class="footer-block__heading inline-richtext">{{ block.settings.newsletter_heading }}</h2>
+                      {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+                        <input type="hidden" name="contact[tags]" value="newsletter">
+                        <div class="newsletter-form__field-wrapper">
+                          <div class="field">
+                            <input
+                              id="NewsletterForm--{{ section.id }}"
+                              type="email"
+                              name="contact[email]"
+                              class="field__input"
+                              value="{{ form.email }}"
+                              aria-required="true"
+                              autocorrect="off"
+                              autocapitalize="off"
+                              autocomplete="email"
+                              {% if form.errors %}
+                                autofocus
+                                aria-invalid="true"
+                                aria-describedby="ContactFooter-error"
+                              {% elsif form.posted_successfully? %}
+                                aria-describedby="ContactFooter-success"
+                              {% endif %}
+                              placeholder="{{ 'newsletter.label' | t }}"
+                              required
+                            >
+                            <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                              {{ 'newsletter.label' | t }}
+                            </label>
+                            <button type="submit" class="newsletter-form__button field__button" name="commit" id="Subscribe" aria-label="{{ 'newsletter.button_label' | t }}">
+                              {% render 'icon-arrow' %}
+                            </button>
+                          </div>
+                          {%- if form.errors -%}
+                            <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                              {%- render 'icon-error' -%}
+                              {{ form.errors.translated_fields['email'] | capitalize }}
+                              {{ form.errors.messages['email'] }}
+                            </small>
+                          {%- endif -%}
+                        </div>
+                        {%- if form.posted_successfully? -%}
+                          <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>
+                            {% render 'icon-success' -%}
+                            {{ 'newsletter.success' | t }}
+                          </h3>
+                        {%- endif -%}
+                      {%- endform -%}
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.show_social and block.settings.newsletter_enable == false -%}
+                    {%- render 'social-icons', class: 'footer__list-social' -%}
+                  {%- endif -%}
+                </div>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="footer__content-bottom">
+    <div class="footer__content-bottom-wrapper page-width">
+      <div class="footer__column footer__localization isolate">
+        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+          <localization-form>
+            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+              <div class="no-js-hidden">
+                <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                {%- render 'country-localization', localPosition: 'FooterCountry' -%}
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- endif -%}
+
+        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+          <localization-form>
+            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+              <div class="no-js-hidden">
+                <h2 class="caption-large text-body" id="FooterLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+                {%- render '

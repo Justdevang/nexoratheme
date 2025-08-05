@@ -1,0 +1,162 @@
+<section class="hero{% if section.settings.layout == 'full_bleed' %} hero--full-width{% endif %}" id="Banner-{{ section.id }}" aria-labelledby="Banner-{{ section.id }}-Heading">
+  <div class="hero__container page-width">
+    <div class="hero__content">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero__heading inline-richtext {{ section.settings.heading_size }}" id="Banner-{{ section.id }}-Heading">
+          {{ section.settings.heading }}
+        </h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="hero__text rte" {{ block.shopify_attributes }}>
+          <p>{{ section.settings.text }}</p>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <div class="hero__buttons">
+          <a
+            {% if section.settings.button_link == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link }}"
+            {% endif %}
+            class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+          >
+            {{- section.settings.button_label | escape -}}
+          </a>
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              {% if section.settings.button_link_2 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_2 }}"
+              {% endif %}
+              class="button button--secondary"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    <div class="hero__media">
+      <div class="floating-card card-1">
+        <div class="card-content">
+          <div class="card-icon">📊</div>
+          <h4>Analytics</h4>
+          <p>Real-time insights</p>
+        </div>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-content">
+          <div class="card-icon">🚀</div>
+          <h4>Growth</h4>
+          <p>Accelerate business</p>
+        </div>
+      </div>
+      <div class="floating-card card-3">
+        <div class="card-content">
+          <div class="card-icon">⚡</div>
+          <h4>Speed</h4>
+          <p>Lightning fast</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.image_banner.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "full_bleed",
+          "label": "t:sections.image_banner.settings.layout.options__1.label"
+        },
+        {
+          "value": "constrain",
+          "label": "t:sections.image_banner.settings.layout.options__2.label"
+        }
+      ],
+      "default": "constrain",
+      "label": "t:sections.image_banner.settings.layout.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Automate the Future with Nexora IO",
+      "label": "t:sections.image_banner.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "AI Agents | Lead Gen | Content Systems – All in One Place",
+      "label": "t:sections.image_banner.settings.text.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Get Started",
+      "label": "t:sections.image_banner.settings.button_label.label",
+      "info": "t:sections.image_banner.settings.button_label.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.image_banner.settings.button_link.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "default": false,
+      "label": "t:sections.image_banner.settings.button_style_secondary.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Book a Free Demo",
+      "label": "t:sections.image_banner.settings.button_label_2.label",
+      "info": "t:sections.image_banner.settings.button_label_2.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "t:sections.image_banner.settings.button_link_2.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image_banner.presets.name"
+    }
+  ]
+}
+{% endschema %}
